@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QuanLyQuanNet" Class="ProgrammingClassDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=LAPTOP-GTQB58EL;Initial Catalog=QuanLyQuanNet;Integrated Security=True" SettingsObjectName="CyberGameManage.Properties.Settings" SettingsPropertyName="QuanLyQuanNetConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Account" Member="Accounts">
+    <Type Name="Account">
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DisplayName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="PassWord" Type="System.String" DbType="NVarChar(1000) NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Bill" Member="Bills">
+    <Type Name="Bill">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DateCheckIn" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="DateCheckOut" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="idComputer" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="totalPrice" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="discount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Bill_BillInfo" Member="BillInfos" ThisKey="id" OtherKey="idBill" Type="BillInfo" />
+      <Association Name="ComputerOrder_Bill" Member="ComputerOrder" ThisKey="idComputer" OtherKey="id" Type="ComputerOrder" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.BillInfo" Member="BillInfos">
+    <Type Name="BillInfo">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="idBill" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="idOrder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="count" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Bill_BillInfo" Member="Bill" ThisKey="idBill" OtherKey="id" Type="Bill" IsForeignKey="true" />
+      <Association Name="Orderr_BillInfo" Member="Orderr" ThisKey="idOrder" OtherKey="id" Type="Orderr" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ComputerOrder" Member="ComputerOrders">
+    <Type Name="ComputerOrder">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="status" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="ComputerOrder_Bill" Member="Bills" ThisKey="id" OtherKey="idComputer" Type="Bill" />
+    </Type>
+  </Table>
+  <Table Name="dbo.OrderCategory" Member="OrderCategories">
+    <Type Name="OrderCategory">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="OrderCategory_Orderr" Member="Orderrs" ThisKey="id" OtherKey="idCategory" Type="Orderr" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Orderr" Member="Orderrs">
+    <Type Name="Orderr">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="idCategory" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="price" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Association Name="Orderr_BillInfo" Member="BillInfos" ThisKey="id" OtherKey="idOrder" Type="BillInfo" />
+      <Association Name="OrderCategory_Orderr" Member="OrderCategory" ThisKey="idCategory" OtherKey="id" Type="OrderCategory" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
